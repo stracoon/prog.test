@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Multi Sub-Questionnaire with Independent Scoring</title>
+    <style>
+      body { 
+        font-family: Arial, sans-serif; 
+        margin: 20px; 
+      }
+      .question { 
+        margin-bottom: 15px; 
+      }
+      .answer-btn { 
+        display: block; 
+        margin: 5px 0; 
+        padding: 10px; 
+        width: 200px; 
+      }
+      .section { 
+        margin-top: 30px; 
+      }
+    </style>
+  </head>
+  <body>
+    <div id="question-container"></div>
+    <script>
+      // Define sub-questionnaires. Each sub-questionnaire contains a title and an array of questions.
+      // Each question has a text and a set of possible answers.
+      // Each answer is an object holding a "next" for the subsequent question (or null to finish the sub questionnaire)
+      // and a "score" for that particular question.
+      const subQuestionnaires = [
+        {
+          title: "Sub-Questionnaire 1: Personal Preferences",
+          questions: [
+            {
+              question: "What is your favorite color?",
+              answers: { 
+                "Red": { next: 1, score: 10 }, 
+                "Blue": { next: 1, score: 5 },
+                "Green": { next: 1, score: 8 }
+              }
+            },
+            {
+              question: "What is your favorite fruit?",
+              answers: { 
+                "Apple": { next: null, score: 7 },
+                "Banana": { next: null, score: 9 },
+                "Grapes": { next: null, score: 4 }
+              }
+            }
+          ]
+        },
+        {
+          title: "Sub-Questionnaire 2: Daily Habits",
+          questions: [
+            {
+              question: "Do you enjoy exercising?",
+              answers: { 
+                "Yes": { next: 1, score: 10 }, 
+                "No": { next: 1, score: 3 }
+              }
+            },
+            {
+              question: "How often do you read books?",
+              answers: { 
+                "Daily": { next: null, score: 10 },
+                "Weekly": { next: null, score: 5 },
+                "Rarely": { next: null, score: 2 }
+              }
+            }
+          ]
+        }
+      ];
 
+      // Tracking variables:
+      let currentSubQuestionnaireIndex = 0; // Index of the current sub questionnaire
+      let currentQuestionIndex = 0; // Index of the current question within the sub questionnaire
+      let scores = subQuestionnaires.map(() => 0); // Array to hold the score for each sub questionnaire
+
+      // Display the current question for the current sub questionnaire.
+      function displayQuestion() {
+        const container = document.getElementById('question-container');
+        container.innerHTML = "";
+
+        // If we have completed all sub questionnaires, show overall results.
+        if (currentSubQuestionnaireIndex >= subQuestionnaires.length) {
+          displayResults();
+          return;
+        }
+
+        const subQ = subQuestionnaires[currentSubQuestionnaireIndex];
+        const questionObj = subQ.questions[currentQuestionIndex];
+
+        // Display sub-questionnaire title.
+        const sectionTitle = document.createElement('h2');
+        sectionTitle.textContent = subQ.title;
+        container.appendChild(sectionTitle);
+
+        // Display the question.
+        const questionEl = document.createElement('div');
+        questionEl.className = "question";
+        questionEl.innerHTML = `<p>${questionObj.question}</p>`;
+        container.appendChild(questionEl);
+
+        // Create answer buttons.
+        for (let answer in questionObj.answers) {
+          const button = document.createElement('button');
+          button.className = "answer-btn";
+          button.textContent = answer;
+          button.onclick = function() {
+            // Add score for this answer to the current sub questionnaire's accumulator.
+            scores[currentSubQuestionnaireIndex] += questionObj.answers[answer].score;
+            // Determine the index of next question in the current sub questionnaire.
+            let nextIndex = questionObj.answers[answer].next;
+            if (nextIndex !== null && nextIndex !== undefined && nextIndex < subQ.questions.length) {
+              // If a next question exists in the sub questionnaire, update the question index.
+              currentQuestionIndex = nextIndex;
+              displayQuestion();
+            } else {
+              // If the current sub questionnaire is finished,
+              // reset the question index and move to the next sub questionnaire.
+              currentSubQuestionnaireIndex++;
+              currentQuestionIndex = 0;
+              displayQuestion();
+            }
+          };
+          container.appendChild(button);
+        }
+      }
+
+      // Display overall results with separate scores for each sub questionnaire.
+      function displayResults() {
+        const container = document.getElementById('question-container');
+        container.innerHTML = "<h2>Results</h2>";
+        subQuestionnaires.forEach((subQ, index) => {
+          const result = document.createElement('p');
+          result.textContent = `${subQ.title}: ${scores[index]} points`;
+          container.appendChild(result);
+        });
+        container.innerHTML += "<p>Thank you for completing all the questionnaires!</p>";
+      }
+
+      // Start the questionnaire when the page loads.
+      window.onload = displayQuestion;
+    </script>
+  </body>
+</html>
