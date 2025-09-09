@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Multi Sub-Questionnaire with Introduction</title>
+    <title>What kind of a progger are you?</title>
     <style>
       body { 
         font-family: Arial, sans-serif; 
@@ -25,22 +25,56 @@
       // Define sub-questionnaires. Each sub-questionnaire has a title and an array of questions.
       const subQuestionnaires = [
         {
-          title: "Sub-Questionnaire 1: Personal Preferences",
+          title: "Harmonic Complexity section",
           questions: [
             {
-              question: "What is your favorite color?",
+              question: "How do you like exotic scales?",
               answers: { 
-                "Red":   { next: 1, score: 10 }, 
-                "Blue":  { next: 1, score: 5 },
-                "Green": { next: 1, score: 8 }
+                "love them":   { next: 1, score: 20 },
+                "like them":   { next: 1, score: 15 },
+                "indifferent about them":   { next: 1, score: 10 },
+                "dislike them":  { next: 1, score: 5 },
+                "hate them": { next: 1, score: 0 }
               }
             },
             {
-              question: "What is your favorite fruit?",
+              question: "How do you like voice leading and contrapuntal works",
               answers: { 
-                "Apple":  { next: null, score: 7 },
-                "Banana": { next: null, score: 9 },
-                "Grapes": { next: null, score: 4 }
+                "Love 'em":   { next: 1, score: 20 },
+                "like 'em":   { next: 1, score: 15 },
+                "indifferent":   { next: 1, score: 10 },
+                "nah":  { next: 1, score: 5 },
+                "I have no idea what they mean": { next: 1, score: 0 }
+              }
+            },
+            {
+              question: "How do you like jazz chords?",
+              answers: { 
+                "spicy!":   { next: 1, score: 20 },
+                "they sound cool":   { next: 1, score: 15 },
+                "not necessary":   { next: 1, score: 10 },
+                "they are tiring":  { next: 1, score: 5 },
+                "I'm a swiftie.": { next: 1, score: 0 }
+              }
+            },
+            {
+              question: "How do you like borrowed chords?",
+              answers: { 
+                "ohh!":   { next: 1, score: 20 },
+                "interesting":   { next: 1, score: 15 },
+                "mid":   { next: 1, score: 10 },
+                "i cannot grasp them":  { next: 1, score: 5 },
+                "i lack basic neural functions": { next: 1, score: 0 }
+              }
+            },
+            {
+              question: "How do you like modulations?",
+              answers: { 
+                "makes my ass contract":   { next: 1, score: 20 },
+                "they are refreshing":   { next: 1, score: 15 },
+                "a whole step up, and let's goo!":   { next: 1, score: 10 },
+                "what is it the early 00's?":  { next: 1, score: 5 },
+                "I clean my ears with screwdrivers": { next: 1, score: 0 }
               }
             }
           ]
@@ -80,13 +114,13 @@
         // Introduction content.
         const introEl = document.createElement('div');
         introEl.className = "intro";
-        introEl.innerHTML = "<h1>Welcome to the Questionnaire!</h1><p>This introduction page explains what the questionnaire is about. When you're ready, click the button below to start.</p>";
+        introEl.innerHTML = "<h1>Welcome to the Prog test!</h1><p>Prog is a weird phenomenon. Over the years prog meant different things to different people. To some it meant literally proggresive, innovative music; while for others, it meant the music that resembles the music of the foundingfathers of the genre. This test is made to provide a rigorous categorization of different prog sub-types by testing different sensibilites of the questionee in different sections. When you're ready, click the button below to start.</p>";
         container.appendChild(introEl);
       
         // Start button to begin the questionnaire.
         const startButton = document.createElement('button');
         startButton.className = "start-btn";
-        startButton.textContent = "Start Questionnaire";
+        startButton.textContent = "Start the Test";
         startButton.onclick = function() {
           // Begin by resetting tracking variables and displaying the first question.
           currentSubQuestionnaireIndex = 0;
