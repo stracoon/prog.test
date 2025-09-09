@@ -2,33 +2,27 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Multi Sub-Questionnaire with Independent Scoring</title>
+    <title>Multi Sub-Questionnaire with Introduction</title>
     <style>
       body { 
         font-family: Arial, sans-serif; 
         margin: 20px; 
       }
-      .question { 
-        margin-bottom: 15px; 
+      .question, .intro {
+        margin-bottom: 15px;
       }
-      .answer-btn { 
+      .answer-btn, .start-btn { 
         display: block; 
-        margin: 5px 0; 
+        margin: 10px 0; 
         padding: 10px; 
         width: 200px; 
-      }
-      .section { 
-        margin-top: 30px; 
       }
     </style>
   </head>
   <body>
-    <div id="question-container"></div>
+    <div id="content-container"></div>
     <script>
-      // Define sub-questionnaires. Each sub-questionnaire contains a title and an array of questions.
-      // Each question has a text and a set of possible answers.
-      // Each answer is an object holding a "next" for the subsequent question (or null to finish the sub questionnaire)
-      // and a "score" for that particular question.
+      // Define sub-questionnaires. Each sub-questionnaire has a title and an array of questions.
       const subQuestionnaires = [
         {
           title: "Sub-Questionnaire 1: Personal Preferences",
@@ -36,15 +30,15 @@
             {
               question: "What is your favorite color?",
               answers: { 
-                "Red": { next: 1, score: 10 }, 
-                "Blue": { next: 1, score: 5 },
+                "Red":   { next: 1, score: 10 }, 
+                "Blue":  { next: 1, score: 5 },
                 "Green": { next: 1, score: 8 }
               }
             },
             {
               question: "What is your favorite fruit?",
               answers: { 
-                "Apple": { next: null, score: 7 },
+                "Apple":  { next: null, score: 7 },
                 "Banana": { next: null, score: 9 },
                 "Grapes": { next: null, score: 4 }
               }
@@ -58,13 +52,13 @@
               question: "Do you enjoy exercising?",
               answers: { 
                 "Yes": { next: 1, score: 10 }, 
-                "No": { next: 1, score: 3 }
+                "No":  { next: 1, score: 3 }
               }
             },
             {
               question: "How often do you read books?",
               answers: { 
-                "Daily": { next: null, score: 10 },
+                "Daily":  { next: null, score: 10 },
                 "Weekly": { next: null, score: 5 },
                 "Rarely": { next: null, score: 2 }
               }
@@ -73,53 +67,76 @@
         }
       ];
 
-      // Tracking variables:
-      let currentSubQuestionnaireIndex = 0; // Index of the current sub questionnaire
-      let currentQuestionIndex = 0; // Index of the current question within the sub questionnaire
-      let scores = subQuestionnaires.map(() => 0); // Array to hold the score for each sub questionnaire
+      // Tracking variables for questionnaires.
+      let currentSubQuestionnaireIndex = 0; // current sub-questionnaire index
+      let currentQuestionIndex = 0; // current question index for the sub-questionnaire
+      let scores = subQuestionnaires.map(() => 0); // individual scores per sub-questionnaire
 
-      // Display the current question for the current sub questionnaire.
-      function displayQuestion() {
-        const container = document.getElementById('question-container');
+      // Function to display the introduction page.
+      function displayIntroduction() {
+        const container = document.getElementById('content-container');
         container.innerHTML = "";
-
-        // If we have completed all sub questionnaires, show overall results.
+      
+        // Introduction content.
+        const introEl = document.createElement('div');
+        introEl.className = "intro";
+        introEl.innerHTML = "<h1>Welcome to the Questionnaire!</h1><p>This introduction page explains what the questionnaire is about. When you're ready, click the button below to start.</p>";
+        container.appendChild(introEl);
+      
+        // Start button to begin the questionnaire.
+        const startButton = document.createElement('button');
+        startButton.className = "start-btn";
+        startButton.textContent = "Start Questionnaire";
+        startButton.onclick = function() {
+          // Begin by resetting tracking variables and displaying the first question.
+          currentSubQuestionnaireIndex = 0;
+          currentQuestionIndex = 0;
+          scores = subQuestionnaires.map(() => 0);
+          displayQuestion();
+        };
+        container.appendChild(startButton);
+      }
+      
+      // Function to display the current question
+      function displayQuestion() {
+        const container = document.getElementById('content-container');
+        container.innerHTML = "";
+      
+        // Check if we've completed all sub-questionnaires.
         if (currentSubQuestionnaireIndex >= subQuestionnaires.length) {
           displayResults();
           return;
         }
-
-        const subQ = subQuestionnaires[currentSubQuestionnaireIndex];
-        const questionObj = subQ.questions[currentQuestionIndex];
-
+      
+        const currentSub = subQuestionnaires[currentSubQuestionnaireIndex];
+        const currentQuestion = currentSub.questions[currentQuestionIndex];
+      
         // Display sub-questionnaire title.
-        const sectionTitle = document.createElement('h2');
-        sectionTitle.textContent = subQ.title;
-        container.appendChild(sectionTitle);
-
+        const titleEl = document.createElement('h2');
+        titleEl.textContent = currentSub.title;
+        container.appendChild(titleEl);
+      
         // Display the question.
         const questionEl = document.createElement('div');
         questionEl.className = "question";
-        questionEl.innerHTML = `<p>${questionObj.question}</p>`;
+        questionEl.innerHTML = `<p>${currentQuestion.question}</p>`;
         container.appendChild(questionEl);
-
+      
         // Create answer buttons.
-        for (let answer in questionObj.answers) {
+        for (let answer in currentQuestion.answers) {
           const button = document.createElement('button');
           button.className = "answer-btn";
           button.textContent = answer;
           button.onclick = function() {
-            // Add score for this answer to the current sub questionnaire's accumulator.
-            scores[currentSubQuestionnaireIndex] += questionObj.answers[answer].score;
-            // Determine the index of next question in the current sub questionnaire.
-            let nextIndex = questionObj.answers[answer].next;
-            if (nextIndex !== null && nextIndex !== undefined && nextIndex < subQ.questions.length) {
-              // If a next question exists in the sub questionnaire, update the question index.
+            // Update score for the current sub-questionnaire.
+            scores[currentSubQuestionnaireIndex] += currentQuestion.answers[answer].score;
+            let nextIndex = currentQuestion.answers[answer].next;
+            if (nextIndex !== null && nextIndex !== undefined && nextIndex < currentSub.questions.length) {
+              // Move to the next question.
               currentQuestionIndex = nextIndex;
               displayQuestion();
             } else {
-              // If the current sub questionnaire is finished,
-              // reset the question index and move to the next sub questionnaire.
+              // End of sub-questionnaire; move to the next one.
               currentSubQuestionnaireIndex++;
               currentQuestionIndex = 0;
               displayQuestion();
@@ -128,21 +145,21 @@
           container.appendChild(button);
         }
       }
-
-      // Display overall results with separate scores for each sub questionnaire.
+      
+      // Function to display questionnaire results.
       function displayResults() {
-        const container = document.getElementById('question-container');
+        const container = document.getElementById('content-container');
         container.innerHTML = "<h2>Results</h2>";
         subQuestionnaires.forEach((subQ, index) => {
-          const result = document.createElement('p');
-          result.textContent = `${subQ.title}: ${scores[index]} points`;
-          container.appendChild(result);
+          const resultEl = document.createElement('p');
+          resultEl.textContent = `${subQ.title}: ${scores[index]} points`;
+          container.appendChild(resultEl);
         });
-        container.innerHTML += "<p>Thank you for completing all the questionnaires!</p>";
+        container.innerHTML += "<p>Thank you for completing the questionnaires!</p>";
       }
-
-      // Start the questionnaire when the page loads.
-      window.onload = displayQuestion;
+      
+      // Begin with the introduction page when the page loads.
+      window.onload = displayIntroduction;
     </script>
   </body>
 </html>
