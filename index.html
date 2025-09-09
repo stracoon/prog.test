@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>What kind of a progger are you? (v0.1)</title>
+    <title>What kind of a progger are you?</title>
     <style>
       body { 
         font-family: Arial, sans-serif; 
@@ -28,53 +28,103 @@
           title: "Harmonic Complexity section",
           questions: [
             {
-              question: "How do you like exotic scales?",
+              question: "Do you like jazz chords?",
               answers: { 
                 "love them":   { next: 1, score: 20 },
                 "like them":   { next: 1, score: 15 },
-                "indifferent about them":   { next: 1, score: 10 },
+                "not necessary":   { next: 1, score: 10 },
                 "dislike them":  { next: 1, score: 5 },
                 "hate them": { next: 1, score: 0 }
               }
             },
             {
-              question: "How do you like voice leading and contrapuntal works",
+              question: "Do you like exotic scales?",
               answers: { 
-                "Love 'em":   { next: 2, score: 20 },
-                "like 'em":   { next: 2, score: 15 },
-                "indifferent":   { next: 2, score: 10 },
-                "nah":  { next: 2, score: 5 },
-                "I have no idea what they mean": { next: 2, score: 0 }
+                "love them":   { next: 2, score: 20 },
+                "like them":   { next: 2, score: 15 },
+                "find them unnecessary":   { next: 2, score: 10 },
+                "dislike them":  { next: 2, score: 5 },
+                "cannot stand them": { next: 2, score: 0 }
               }
             },
             {
-              question: "How do you like jazz chords?",
+              question: "Do you like borrowed chords?",
               answers: { 
-                "spicy!":   { next: 3, score: 20 },
-                "they sound cool":   { next: 3, score: 15 },
-                "not necessary":   { next: 3, score: 10 },
-                "they are tiring":  { next: 3, score: 5 },
-                "I'm a swiftie.": { next: 3, score: 0 }
-              }
-            },
-            {
-              question: "How do you like borrowed chords?",
-              answers: { 
-                "ohh!":   { next: 4, score: 20 },
-                "interesting":   { next: 4, score: 15 },
-                "mid":   { next: 4, score: 10 },
-                "i cannot grasp them":  { next: 4, score: 5 },
-                "i lack basic neural functions": { next: 4, score: 0 }
+                "ohh!":   { next: 3, score: 20 },
+                "interesting":   { next: 3, score: 15 },
+                "mid":   { next: 3, score: 10 },
+                "overrated imo":  { next: 3, score: 5 },
+                "I have no idea what they mean": { next: 3, score: 0 }
               }
             },
             {
               question: "How do you like modulations?",
               answers: { 
-                "makes my ass contract":   { next: null, score: 20 },
-                "they are refreshing":   { next: null, score: 15 },
-                "a whole step up, and let's goo!":   { next: null, score: 10 },
-                "what is it the early 00's?":  { next: null, score: 5 },
-                "I clean my ears with screwdrivers": { next: null, score: 0 }
+                "love 'em":   { next: 4, score: 20 },
+                "like 'em":   { next: 4, score: 15 },
+                "a whole step up, what's so special about 'em?":   { next: 4, score: 10 },
+                "what is it, the early 00's?":  { next: 4, score: 5 },
+                "i lack basic neural functions": { next: 4, score: 0 }
+              }
+            },            
+            {
+              question: "Polychords?",
+              answers: {
+                "yes please!":   { next: 5, score: 20 },
+                "oh, wizardly stuff!":   { next: 5, score: 15 },
+                "don't mind 'em":   { next: 5, score: 15 },
+                "a little too dissonant":   {  next: 5, score: 5 },
+                "i'm a swiftie":  { next: 5, score: 0 }
+              }
+            },
+            {
+              question: "Microtonal music?",
+              answers: {
+                "touches the soul":   { next: 6, score: 20 },
+                "a beautiful form of expression":   { next: 6, score: 15},
+                "don't mind it":   { next: 6, score: 10 },
+                "sounds out of tune":   { next: 6, score: 5 },
+                "i deserve to be institutionalised":   { next: 6, score: 0 }
+              }
+            },
+            {
+              question: "Neo-riemannian theory?",
+              answers: {
+                "really important for understandi... sth sth":   { next: 7, score: 20 },
+                "interesting but not very useful":   { next: 7, score: 15 },
+                "not interested":   { next: 7, score: 10 },
+                "i am a wanker (not interested in theory in general)":   { next: 7, score: 5 },
+                "my father was right in leaving me":   { next: 7, score: 0 }
+              }
+            },
+            {
+              question: "Non-conventional triads like lydian and phrigian triads?",
+              answers: {
+                "spicy!":   { next: 8, score: 20 },
+                "nice":   { next: 8, score: 15 },
+                "meh":   { next: 8, score: 10 },
+                "no":   { next: 8, score: 5 },
+                "as a child i slightly enjoyed being bullied":   { next: 8, score: 0 }
+              }
+            },
+            {
+              question: "How about chromatic mediants?",
+              answers: {
+                "such colorful chords!":   { next: 9, score: 20 },
+                "good":   { next: 9, score: 15 },
+                "a bit cliche":   { next: 9, score: 10 },
+                "wow every 19th century german music, how innovative":   { next: 9, score: 5 },
+                "i touch stove, i get burned, i touch it again to check if hot":   { next: 8, score: 0 }
+              }
+            },
+            {
+              question: "How do you like voice leading and contrapuntal works?",
+              answers: { 
+                "makes my ass spasm":   { next: null, score: 20 },
+                "they sound nice":   { next: null, score: 15 },
+                "indifferent":   { next: null, score: 10 },
+                "they are kinda confusing":  { next: null, score: 5 },
+                "my lord created me with barely any finnese": { next: null, score: 0 }
               }
             }
           ]
