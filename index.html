@@ -5,17 +5,44 @@
     <title>What kind of a progger are you?</title>
     <style>
       body { 
-        font-family: Arial, sans-serif; 
-        margin: 20px; 
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: #f5f6fa;
       }
-      .question, .intro {
-        margin-bottom: 15px;
+      #content-container {
+        max-width: 500px;
+        margin: 40px auto 0 auto;
+        background: white;
+        padding: 30px 32px 32px 32px;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px 0 rgba(60,60,100,0.10);
+      }
+      h1, h2 {
+        text-align: center;
+        margin-top: 0;
+      }
+      .intro, .question {
+        margin-bottom: 18px;
+        text-align: center;
       }
       .answer-btn, .start-btn { 
-        display: block; 
-        margin: 10px 0; 
-        padding: 10px; 
-        width: 200px; 
+        display: block;
+        margin: 12px auto 0 auto;
+        padding: 10px;
+        width: 90%;
+        max-width: 260px;
+        background: #4f8cff;
+        color: white;
+        border: none;
+        border-radius: 7px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.16s;
+      }
+      .answer-btn:hover, .start-btn:hover {
+        background: #366ed6;
       }
     </style>
   </head>
